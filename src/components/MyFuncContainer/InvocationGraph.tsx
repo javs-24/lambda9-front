@@ -9,8 +9,8 @@ const InvocationGraph: React.FunctionComponent<any> = props => {
   let invocations = props.graphData.invocations
   let timestamps = props.graphData.timestamps
   if (typeof invocations === 'string' && timestamps === 'string') {
-    const invocationn = JSON.parse(invocations)
-    const timestampp = JSON.parse(timestamps)
+    invocations = JSON.parse(invocations)
+    timestamps = JSON.parse(timestamps)
     //   }
     //   console.log('invoke', invocations)
     //   console.log('time', timestamps)
@@ -28,12 +28,14 @@ const InvocationGraph: React.FunctionComponent<any> = props => {
       title: {
         display: true,
         text: ''
-      }
+      },
+      maintainAspectRatio: false,
     };
     var mockdata = {
-      labels: timestampp,
+      labels: ['2019-07-24', '2019-07-16', '2019-07-15', '2019-07-11', '2019-07-10'],
       datasets: [
         {
+          label: 'dataset',
           fill: false,
           lineTension: 0.1,
           backgroundColor: 'rgba(75,192,192,0.4)',
@@ -49,21 +51,24 @@ const InvocationGraph: React.FunctionComponent<any> = props => {
           pointHoverBackgroundColor: 'rgba(75,192,192,1)',
           pointHoverBorderColor: 'rgba(220,220,220,1)',
           pointHoverBorderWidth: 2,
-          pointRadius: 1,
+          pointRadius: 3,
           pointHitRadius: 10,
-          data: invocationn
+          data: [23, 13, 7, 10, 5]
         }
       ]
     };
-    console.log('time', timestampp)
   }
 
   return (
     <div>
-      <Line data={mockdata} options={options} />
+      <StyledGraph>
+        {<Line data={mockdata} options={options} />}
+      </StyledGraph>
     </div>
   );
 };
 
-
+const StyledGraph = styled.div`
+  width: 425px;
+`
 export default InvocationGraph;

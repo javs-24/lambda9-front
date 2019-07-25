@@ -35,6 +35,7 @@ function MyFuncContainer({ match }: RouteComponentProps<TParams>) {
     getData()
   }, [])
 
+
   return (
     <StyledContainer>
       <Row>
@@ -45,47 +46,43 @@ function MyFuncContainer({ match }: RouteComponentProps<TParams>) {
         Overview
       </div>
       <InvocationContainer>
-        <Invocation>
-          <Statistic
-            title="Total Invocations"
-            value={filtered.numInvocations}
-          />
+        <StatsStyled>
+          <Statistic title="Total Invocations" value={filtered.numInvocations} />
           <Statistic title="Total Errors" value={filtered.numErrors} />
-        </Invocation>
-        <Invocation>
+        </StatsStyled>
+        <Graph>
           Invocation Over Time
-          <InvocationGraph graphData={func} />
-        </Invocation>
-        <Invocation>One More Graph</Invocation>
-        <Invocation>Just Because</Invocation>
+            <InvocationGraph graphData={func} />
+        </Graph>
       </InvocationContainer>
       <LogContainer logs={filtered} />
     </StyledContainer>
   );
 }
 
-const Info = styled.div`
-  display: flex;
-`;
 
 const Row = styled.div`
   display: flex;
   font-size: 20px;
 `;
 const InvocationContainer = styled.div`
-  height:
   display: flex;
-  justify-content: space-between;
-  color: black;
-  padding: 20px;
+  color: dodgerblue;
+  // padding: 20px;
   background: #f5f5f5;
 `;
 const Invocation = styled.div`
   margin: 5px;
 `;
+const StatsStyled = styled.div`
+  flex: 1
+`
 const StyledContainer = styled.div`
-  height: 100vh;
+  // height: 100vh;
   padding: 10px;
 `;
+const Graph = styled.div`
+flex: 2
+`
 
 export default MyFuncContainer;
