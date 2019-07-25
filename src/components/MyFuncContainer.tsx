@@ -4,14 +4,14 @@ import { RouteComponentProps } from 'react-router-dom';
 import LogContainer from './LogContainer';
 import styled from 'styled-components';
 import { Statistic } from 'antd';
-import { GetGraphData } from '../graphql/graphql'
+import { GetGraphData } from '../graphql/graphql';
 import { API, graphqlOperation, Auth } from 'aws-amplify';
-import InvocationGraph from './MyFuncContainer/InvocationGraph'
+import InvocationGraph from './MyFuncContainer/InvocationGraph';
 
 type TParams = { func: string };
 
 function MyFuncContainer({ match }: RouteComponentProps<TParams>) {
-  const [func, setFunction] = useState({})
+  const [func, setFunction] = useState({});
   const filtered = useContext(MyContext).state.functions.filter(ele => {
     return ele.name === match.params.func;
   })[0];
@@ -22,24 +22,29 @@ function MyFuncContainer({ match }: RouteComponentProps<TParams>) {
         const graphData = await API.graphql(
           graphqlOperation(GetGraphData, { id: filtered.id })
         ).then(response => {
-          console.log(' i am in response')
+          console.log(' i am in response');
           console.log('response:', response);
-          console.log('response invocationData:', response.data.getFunction.invocationData);
-          setFunction(response.data.getFunction.invocationData)
+          console.log(
+            'response invocationData:',
+            response.data.getFunction.invocationData
+          );
+          setFunction(response.data.getFunction.invocationData);
         });
-      }
-      catch (e) {
-        console.log("errrroorr:", e)
+      } catch (e) {
+        console.log('errrroorr:', e);
       }
     }
-    getData()
-  }, [])
+    getData();
+  }, []);
 
 
   return (
     <StyledContainer>
       <Row>
-        {filtered.name} From Project: {filtered.projectName}
+        <p>
+          <span className='function-name'>{filtered.name}</span> from project{' '}
+          <strong>{filtered.projectName}</strong>
+        </p>
       </Row>
 
       <div style={{ fontSize: '16px', color: 'black', fontWeight: 'bold' }}>
@@ -64,6 +69,13 @@ function MyFuncContainer({ match }: RouteComponentProps<TParams>) {
 const Row = styled.div`
   display: flex;
   font-size: 20px;
+  .function-name {
+    font-family: 'Roboto Mono', 'Courier', 'Helvetica';
+    background: #01172c;
+    padding: 0.25rem;
+    border-radius: 7px;
+    color: salmon;
+  }
 `;
 const InvocationContainer = styled.div`
   display: flex;
@@ -78,7 +90,10 @@ const StatsStyled = styled.div`
   flex: 1
 `
 const StyledContainer = styled.div`
-  // height: 100vh;
+  margin: 0 auto;
+  max-width: 1200px;
+  width: 100%;
+  height: 100vh;
   padding: 10px;
 `;
 const Graph = styled.div`
